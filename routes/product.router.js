@@ -1,4 +1,5 @@
 const ProductModel = require('../database/models/Product');
+const OrderModel = require('../database/models/Order');
 const router = require('express').Router({strict: true});
 
 router.get('/', async (req, res) => {
@@ -63,6 +64,19 @@ router.delete('/', async (req, res) => {
       res.send();
     }
   });
+})
+
+router.post('/order', async (req, res) => {
+  try {
+    const newOrder = req.body;
+
+    await OrderModel.create(newOrder);
+
+    res.send();
+  } catch (e) {
+    console.log('order POST error: ', e.message);
+    res.status(400).send(e.message);
+  }
 })
 
 module.exports = router;
